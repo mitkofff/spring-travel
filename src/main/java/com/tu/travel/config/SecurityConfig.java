@@ -7,6 +7,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.tu.travel.service.Impl.JpaUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -36,11 +39,13 @@ import static org.springframework.security.config.Customizer.*;
 @EnableWebSecurity
 public class SecurityConfig {
     private final RsaKeyProperties rsaKeys;
+    private final JpaUserDetailsServiceImpl jpaUserDetailsService;
 
-    public SecurityConfig(RsaKeyProperties rsaKeys) {
+    public SecurityConfig(RsaKeyProperties rsaKeys, JpaUserDetailsServiceImpl jpaUserDetailsService) {
         this.rsaKeys = rsaKeys;
+        this.jpaUserDetailsService = jpaUserDetailsService;
     }
-
+/*
     @Bean
     public InMemoryUserDetailsManager user() {
         return new InMemoryUserDetailsManager(
@@ -50,13 +55,20 @@ public class SecurityConfig {
                         .build()
         );
     }
+ */
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth
+                        .mvcMatchers("/").permitAll()
+                        .mvcMatchers("/users/*").permitAll()
+                        .mvcMatchers("/token").permitAll()
+                        .mvcMatchers("/days/*").permitAll()
                         .anyRequest().authenticated()
                 )
+                .userDetailsService(jpaUserDetailsService)
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(withDefaults())
@@ -77,10 +89,15 @@ public class SecurityConfig {
     }
 
     @Bean
+    PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+    @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:6000"));
-        configuration.setAllowedMethods(Arrays.asList("GET"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5432"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(List.of("Authorization"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

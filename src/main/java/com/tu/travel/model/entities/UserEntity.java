@@ -1,9 +1,6 @@
 package com.tu.travel.model.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -15,7 +12,7 @@ public class UserEntity extends BaseEntity {
     private String fullName;
     private boolean isActive;
     private String userImg;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRoleEntity> userRoles;
 
     @Column(name = "email", unique = true, nullable = false)

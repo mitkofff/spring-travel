@@ -12,7 +12,7 @@ import java.security.Principal;
 @RestController
 public class HomeController {
     @GetMapping("")
-    public String hello(Principal principal) {
-        return "Principal: " + principal.getName();
+    public String hello() {
+        return "Hello Page";
     }
 }
