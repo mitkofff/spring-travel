@@ -13,6 +13,6 @@ import java.security.Principal;
 public class HomeController {
     @GetMapping("")
     public String hello(Principal principal) {
-        return "index";
+        return "Principal: " + principal.getName();
     }
 }

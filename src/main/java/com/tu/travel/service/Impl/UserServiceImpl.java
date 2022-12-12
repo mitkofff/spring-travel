@@ -1,12 +1,10 @@
 package com.tu.travel.service.Impl;
-import java.time.Instant;
 import java.util.Arrays;
 
 import com.tu.travel.model.entities.UserEntity;
 import com.tu.travel.model.entities.enums.UserRoleEnum;
 import com.tu.travel.model.services.UserServiceModel;
 import com.tu.travel.repository.UserRepository;
-import com.tu.travel.service.TokenService;
 import com.tu.travel.service.UserRoleService;
 import com.tu.travel.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserRoleService userRoleService;
-  //  private final TokenService tokenService;
     private final ModelMapper modelMapper;
 
     public UserServiceImpl(UserRepository userRepository,
@@ -25,7 +22,6 @@ public class UserServiceImpl implements UserService {
                            ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
-        //this.tokenService = tokenService;
         this.modelMapper = modelMapper;
     }
 
@@ -36,8 +32,6 @@ public class UserServiceImpl implements UserService {
         userServiceModel.setPassword(encodedPassword);
         UserEntity user = modelMapper.map(userServiceModel, UserEntity.class);
         user.setUserRoles(Arrays.asList(userRoleService.findRole(UserRoleEnum.CLIENT)));
-        //user.setCreated(Instant.now());
-        //user.setUpdated(Instant.now());
 
         userRepository.save(user);
     }

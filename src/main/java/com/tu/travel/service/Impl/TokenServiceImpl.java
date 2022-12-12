@@ -13,9 +13,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
 @Service
-public class TokenServiceImpl implements TokenService
-{
-    /*
+public class TokenServiceImpl implements TokenService {
     private final JwtEncoder encoder;
 
     public TokenServiceImpl(JwtEncoder encoder) {
@@ -24,7 +22,6 @@ public class TokenServiceImpl implements TokenService
 
     @Override
     public String generateToken(Authentication authentication) {
-        System.out.println("11111111111111111111");
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -33,11 +30,9 @@ public class TokenServiceImpl implements TokenService
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
-                .subject(authentication.getName())
+                .subject((authentication.getName()))
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
-
-     */
 }
