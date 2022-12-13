@@ -8,14 +8,12 @@ import java.sql.Date;
 public class TripDayEntity {
     @EmbeddedId
     private  TripDayFK tripDayFK;
-    private Date date;
 
     public TripDayEntity() {
     }
 
-    public TripDayEntity(TripDayFK tripDayFK, Date date) {
+    public TripDayEntity(TripDayFK tripDayFK) {
         this.tripDayFK = tripDayFK;
-        this.date = date;
     }
 
     public TripDayFK getTripDayFK() {
@@ -24,13 +22,5 @@ public class TripDayEntity {
 
     public void setTripDayFK(TripDayFK tripDayFK) {
         this.tripDayFK = tripDayFK;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }

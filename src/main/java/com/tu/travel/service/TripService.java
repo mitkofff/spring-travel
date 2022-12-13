@@ -1,7 +1,9 @@
 package com.tu.travel.service;
 
+import com.tu.travel.exception.GetDaysException;
 import com.tu.travel.exception.TripDeletionFails;
 import com.tu.travel.exception.TripNotFoundException;
+import com.tu.travel.model.services.DayServiceModel;
 import com.tu.travel.model.services.TripServiceModel;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Service
 public interface TripService {
+    public List<TripServiceModel> getTrips() throws TripNotFoundException;
     public TripServiceModel getTripById(long id) throws TripNotFoundException;
 
     public TripServiceModel addTrip(TripServiceModel day) throws TripNotFoundException;

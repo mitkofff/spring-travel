@@ -20,9 +20,9 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public void initUserRoles() {
         if(userRoleRepository.count() == 0) {
-            UserRoleEntity admin = new UserRoleEntity(UserRoleEnum.ADMIN);
-            UserRoleEntity agent = new UserRoleEntity(UserRoleEnum.AGENT);
-            UserRoleEntity client = new UserRoleEntity(UserRoleEnum.CLIENT);
+            UserRoleEntity admin = new UserRoleEntity(UserRoleEnum.ROLE_ADMIN);
+            UserRoleEntity agent = new UserRoleEntity(UserRoleEnum.ROLE_AGENT);
+            UserRoleEntity client = new UserRoleEntity(UserRoleEnum.ROLE_CLIENT);
 
             List<UserRoleEntity> roles = Arrays.asList(admin, agent, client);
             userRoleRepository.saveAll(roles);

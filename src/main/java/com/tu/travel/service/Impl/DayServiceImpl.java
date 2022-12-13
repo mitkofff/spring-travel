@@ -21,16 +21,16 @@ public class DayServiceImpl implements DayService {
         this.dayRepository = dayRepository;
         this.modelMapper = modelMapper;
     }
-/*
+
     @Override
     public List<DayServiceModel> getDays() throws GetDaysException {
-        List<DayServiceModel> days = (List<DayServiceModel>) dayRepository.findDays()
+        List<DayServiceModel> days = dayRepository.getDayEntities()
                 .stream()
                 .map((day) -> modelMapper.map(day, DayServiceModel.class))
                 .collect(Collectors.toList());
         return days;
     }
-*/
+
     @Override
     public DayServiceModel getDayById(long id) throws DayNotFoundException {
         return dayRepository.findById(id)
@@ -61,7 +61,6 @@ public class DayServiceImpl implements DayService {
         dayToBeUpdated.setDate(dayUpdateObject.getDate());
         dayToBeUpdated.setDescription(dayUpdateObject.getDescription());
         dayToBeUpdated.setComment(dayUpdateObject.getComment());
-       // dayToBeUpdated.setUpdated(Instant.now());
 
         dayRepository.save(dayToBeUpdated);
         Optional<DayEntity> updatedDay = dayRepository.findById(id);

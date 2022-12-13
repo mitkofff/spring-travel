@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class TripEntity extends BaseEntity{
     private String name;
     private String description;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name="trips_days",
             joinColumns = { @JoinColumn(name = "trip_id") },

@@ -12,7 +12,6 @@ public class AuthController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
     private final TokenService tokenService;
 
-
     public AuthController(TokenService tokenService) {
         this.tokenService = tokenService;
     }

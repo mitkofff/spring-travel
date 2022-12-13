@@ -3,6 +3,7 @@ package com.tu.travel.model.services;
 import java.sql.Date;
 
 public class DayServiceModel {
+    private Long id;
     private String location;
     private String description;
     private String comment;
@@ -11,11 +12,20 @@ public class DayServiceModel {
     public DayServiceModel() {
     }
 
-    public DayServiceModel(String location, String description, String comment, Date date) {
+    public DayServiceModel(Long id, String location, String description, String comment, Date date) {
+        this.id = id;
         this.location = location;
         this.description = description;
         this.comment = comment;
         this.date = date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLocation() {

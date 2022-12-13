@@ -1,7 +1,7 @@
 package com.tu.travel.model.entities.enums;
 
 public enum UserRoleEnum {
-    ADMIN,
-    AGENT,
-    CLIENT
+    ROLE_ADMIN,
+    ROLE_AGENT,
+    ROLE_CLIENT
 }

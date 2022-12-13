@@ -9,6 +9,9 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
+import java.util.List;
+
 @RestController
 @RequestMapping("/days")
 public class DayController {
@@ -17,12 +20,12 @@ public class DayController {
     public DayController(DayService dayService) {
         this.dayService = dayService;
     }
-/*
+
     @GetMapping()
-    public ResponseEntity<DayServiceModel> getDays() throws GetDaysException {
+    public ResponseEntity<List<DayServiceModel>> getDays() throws GetDaysException {
         return ResponseEntity.ok(dayService.getDays());
     }
-*/
+
     @GetMapping("/{id}")
     public ResponseEntity<DayServiceModel> getDayById(@PathVariable("id") long id) throws DayNotFoundException {
         return ResponseEntity.ok(dayService.getDayById(id));

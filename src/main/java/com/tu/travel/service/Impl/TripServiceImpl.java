@@ -3,21 +3,19 @@ package com.tu.travel.service.Impl;
 import com.tu.travel.exception.TripDeletionFails;
 import com.tu.travel.exception.TripNotFoundException;
 import com.tu.travel.model.entities.DayEntity;
-import com.tu.travel.model.entities.TripDayEntity;
 import com.tu.travel.model.entities.TripEntity;
-import com.tu.travel.model.services.TripDayServiceModel;
 import com.tu.travel.model.services.TripServiceModel;
 import com.tu.travel.repository.DayRepository;
 import com.tu.travel.repository.TripDayRepository;
 import com.tu.travel.repository.TripRepository;
 import com.tu.travel.service.TripService;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -36,6 +34,15 @@ public class TripServiceImpl implements TripService {
         this.dayRepository = dayRepository;
         this.tripDayRepository = tripDayRepository;
         this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public List<TripServiceModel> getTrips() throws TripNotFoundException {
+        List<TripServiceModel> trips = tripRepository.getTripEntities()
+                .stream()
+                .map((trip) -> modelMapper.map(trip, TripServiceModel.class))
+                .collect(Collectors.toList());
+        return trips;
     }
 
     @Override
@@ -80,7 +87,5 @@ public class TripServiceImpl implements TripService {
         trip.setDays(days);
 
         tripRepository.saveAndFlush(trip);
-        //List<TripDayEntity> tripDayRows = tripDayRepository.getTripDayByTripId(tripId);
-        //System.out.println(tripDayRows);
     }
 }

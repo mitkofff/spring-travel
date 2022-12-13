@@ -9,6 +9,7 @@ import com.tu.travel.service.UserRoleService;
 import com.tu.travel.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,12 +18,16 @@ public class UserServiceImpl implements UserService {
     private final UserRoleService userRoleService;
     private final ModelMapper modelMapper;
 
+    private final PasswordEncoder passwordEncoder;
+
     public UserServiceImpl(UserRepository userRepository,
                            UserRoleService userRoleService,
-                           ModelMapper modelMapper) {
+                           ModelMapper modelMapper,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
         this.modelMapper = modelMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -31,7 +36,7 @@ public class UserServiceImpl implements UserService {
         String encodedPassword = passwordEncoder.encode(userServiceModel.getPassword());
         userServiceModel.setPassword(encodedPassword);
         UserEntity user = modelMapper.map(userServiceModel, UserEntity.class);
-        user.setUserRoles(Arrays.asList(userRoleService.findRole(UserRoleEnum.CLIENT)));
+        user.setUserRoles(Arrays.asList(userRoleService.findRole(UserRoleEnum.ROLE_CLIENT)));
 
         userRepository.save(user);
     }
@@ -39,8 +44,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserServiceModel findByEmailAndPassword(String email, String password) {
         UserServiceModel foundUser = userRepository
-                .findByEmailAndPassword(email, password)
-                .map(user -> modelMapper.map(user, UserServiceModel.class))
+                .findByEmail(email)
+                .map(user -> {
+                    if (passwordEncoder.matches(password, user.getPassword())) {
+                        return modelMapper.map(user, UserServiceModel.class);
+                    }
+
+                    return null;
+                })
                 .orElse(null);
 
         return foundUser;

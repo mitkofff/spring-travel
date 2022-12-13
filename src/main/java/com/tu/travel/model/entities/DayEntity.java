@@ -15,7 +15,10 @@ public class DayEntity extends BaseEntity implements Serializable {
     private String comment;
     private Date date;
 
-    @ManyToMany(mappedBy = "days", fetch = FetchType.EAGER)
+    @ManyToMany(
+            mappedBy = "days",
+            fetch = FetchType.EAGER,
+            cascade=CascadeType.MERGE)
     @JsonIgnore
     private List<TripEntity> trips;
     public String getLocation() {

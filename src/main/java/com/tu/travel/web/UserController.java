@@ -82,7 +82,10 @@ public class UserController {
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
-        if (bindingResult.hasErrors()) {
+        System.out.println(userRegisterBindingModel.getConfirmPassword());
+        if (bindingResult.hasErrors() ||
+                !userRegisterBindingModel.getConfirmPassword().equals(userRegisterBindingModel.getPassword())
+        ) {
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
             return "redirect:register";
         }
