@@ -1,15 +1,13 @@
-package com.tu.travel.web;
+package com.tu.travel.controller;
 
 import com.tu.travel.exception.*;
 import com.tu.travel.model.services.DayServiceModel;
 import com.tu.travel.service.DayService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -22,7 +20,9 @@ public class DayController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<DayServiceModel>> getDays() throws GetDaysException {
+    public ResponseEntity<List<DayServiceModel>> getDays(Principal pr) throws GetDaysException {
+        System.out.println(pr.getName());
+        System.out.println(pr.getClass());
         return ResponseEntity.ok(dayService.getDays());
     }
 

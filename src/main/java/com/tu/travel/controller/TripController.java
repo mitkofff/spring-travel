@@ -1,20 +1,13 @@
-package com.tu.travel.web;
+package com.tu.travel.controller;
 
-import com.tu.travel.exception.GetDaysException;
 import com.tu.travel.exception.TripDeletionFails;
 import com.tu.travel.exception.TripNotFoundException;
-import com.tu.travel.model.services.DayServiceModel;
 import com.tu.travel.model.services.TripServiceModel;
 import com.tu.travel.service.TripService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController

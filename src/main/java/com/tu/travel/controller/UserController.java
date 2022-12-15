@@ -1,4 +1,4 @@
-package com.tu.travel.web;
+package com.tu.travel.controller;
 
 import com.tu.travel.model.bindings.UserLoginBindingModel;
 import com.tu.travel.model.bindings.UserRegisterBindingModel;
@@ -82,11 +82,13 @@ public class UserController {
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes
     ) {
-        System.out.println(userRegisterBindingModel.getConfirmPassword());
-        if (bindingResult.hasErrors() ||
-                !userRegisterBindingModel.getConfirmPassword().equals(userRegisterBindingModel.getPassword())
-        ) {
+        boolean isPassAndConfirmPassAreEqual = userRegisterBindingModel.getConfirmPassword()
+                .equals(userRegisterBindingModel.getPassword());
+
+        if (bindingResult.hasErrors() || !isPassAndConfirmPassAreEqual) {
             redirectAttributes.addFlashAttribute("userRegisterBindingModel", userRegisterBindingModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegisterBindingModel", bindingResult);
+
             return "redirect:register";
         }
 

@@ -1,4 +1,4 @@
-package com.tu.travel.web;
+package com.tu.travel.controller;
 
 import com.tu.travel.service.TokenService;
 import org.slf4j.Logger;
